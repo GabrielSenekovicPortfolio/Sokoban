@@ -14,14 +14,10 @@ public class Platform : MonoBehaviour
     BoxCollider2D boxCollider;
     SpriteRenderer spriteRenderer;
 
-    private void Awake()
+    private void Start()
     {
         boxCollider = GetComponent<BoxCollider2D>();
         spriteRenderer = GetComponentInChildren<SpriteRenderer>();
-    }
-
-    private void Start()
-    {
         ProgressionManager.Instance.AddPlatform(this);
     }
     public void Activate()

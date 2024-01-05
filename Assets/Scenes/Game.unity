@@ -2113,7 +2113,7 @@ MonoBehaviour:
   - {fileID: 5601298370409538556, guid: fa5b88f5693869649b53ef9cfc9bc0b3, type: 3}
   - {fileID: 1570442920944572031, guid: 1c3b0488bf79d634ba11e8993617255f, type: 3}
   levelTimer: {fileID: 189558478}
-  currentIndex: 3
+  currentIndex: 0
   targetText: {fileID: 1535794958}
   levelText: {fileID: 1335550487}
   gemstonePutSound: Gemstone
@@ -2966,11 +2966,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1315597555874720257, guid: e6e16a0cbc43532428914150dde696b6, type: 3}
       propertyPath: m_NormalizedViewPortRect.x
-      value: 0.17864585
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1315597555874720257, guid: e6e16a0cbc43532428914150dde696b6, type: 3}
       propertyPath: m_NormalizedViewPortRect.width
-      value: 0.6428572
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1315597555874720258, guid: e6e16a0cbc43532428914150dde696b6, type: 3}
       propertyPath: m_Name
