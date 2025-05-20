@@ -9,5 +9,7 @@ public class MainInstaller : MonoInstaller
         Container.Bind<GameOverManager>().FromComponentInHierarchy().AsSingle();
         Container.Bind<ProgressionManager>().FromComponentInHierarchy().AsSingle();
         Container.Bind<AudioManager>().FromComponentInHierarchy().AsSingle();
+        Container.Bind<PrefabSpawner>().FromComponentInHierarchy().AsSingle();
+        Container.Bind<Vignette>().FromComponentInHierarchy().AsSingle();
     }
 }

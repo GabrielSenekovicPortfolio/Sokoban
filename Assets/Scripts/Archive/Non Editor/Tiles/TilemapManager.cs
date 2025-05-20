@@ -82,6 +82,7 @@ public class TilemapManager : MonoBehaviour
     {
         foreach(var tilemap in tileMaps.Values)
         {
+            Vector3 offset = tilemap.tileAnchor;
             foreach (Vector3Int position in tilemap.cellBounds.allPositionsWithin)
             {
                 TileBase tile = tilemap.GetTile(position);
@@ -92,7 +93,7 @@ public class TilemapManager : MonoBehaviour
 
                     if (instantiatedGameObject != null)
                     {
-                        instantiatedGameObject.transform.position = new Vector3(position.x, position.y) + new Vector3(1, 0.5f) + transform.position;
+                        instantiatedGameObject.transform.position = new Vector3(position.x, position.y) + offset + transform.position;
                     }
                 }
             }
@@ -126,25 +127,6 @@ public class TilemapManager : MonoBehaviour
                 tilemap = newTilemapGO.AddComponent<Tilemap>();
                 newTilemapGO.AddComponent<TilemapRenderer>();
                 tileMaps.Add(tilemapName, tilemap);
-            }
-            if (tilemapName == "ice" || tilemapName == "water")
-            {
-                /*
-    #if UNITY_EDITOR
-                if (!Application.isPlaying)
-                {
-                    var field = Undo.AddComponent<Field>(tilemap.gameObject);
-                    field.SetAffliction("slippery");
-                    var collider = Undo.AddComponent<TilemapCollider2D>(tilemap.gameObject);
-                    collider.isTrigger = true;
-                }
-                else
-                {
-                    tilemap.gameObject.AddComponent<Field>();
-                }
-    #else
-                    tilemap.gameObject.AddComponent<Field>();
-    #endif*/
             }
             return false;
         }

@@ -21,7 +21,7 @@ public class LevelTimer : MonoBehaviour
 
     private void Awake()
     {
-        currentTimerValue = 0;
+        currentTimerValue = timerStartValue;
     }
 
     private void Update()

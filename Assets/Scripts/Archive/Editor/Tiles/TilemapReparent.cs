@@ -7,6 +7,7 @@ using UnityEngine;
 using UnityEngine.Tilemaps;
 
 [InitializeOnLoad]
+[ExecuteInEditMode]
 static class TilemapReparent
 {
     static TilemapReparent()
@@ -16,6 +17,7 @@ static class TilemapReparent
 
     static void OnHierarchyChanged()
     {
+        if (Application.isPlaying) return;
         var prefabStage = PrefabStageUtility.GetCurrentPrefabStage();
         Transform root = prefabStage != null
             ? prefabStage.prefabContentsRoot.transform

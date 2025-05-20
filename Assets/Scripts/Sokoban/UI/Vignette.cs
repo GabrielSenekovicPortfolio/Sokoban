@@ -76,7 +76,7 @@ public class Vignette : MonoBehaviour
         }
     }
 
-    public void CloseAndOpen(Action beforeOpen, Action afterOpen, int index = 1)
+    public void CloseAndOpen(Action beforeOpen, Action afterOpen, int index = 0)
     {
         if(vignetteState != VignetteState.NONE) { return; }
         Time.timeScale = 0;

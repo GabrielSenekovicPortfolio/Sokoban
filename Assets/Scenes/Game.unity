@@ -1616,7 +1616,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Material: {fileID: 2100000, guid: 1b850e88545aacf44b8cb443a9755688, type: 2}
+  m_Material: {fileID: -876546973899608171, guid: 800e2322622deb04787c800137aaf77e, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
@@ -1654,10 +1654,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 76319f0831a483343a1fea3d3751084c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  configurations: []
+  configurations:
+  - circlePosition: {x: -1, y: 0}
+    squarePosition: {x: 0, y: 0}
+    squareSize: {x: 0, y: 0}
+    dimensions: {x: 2200, y: 1080}
   vignetteMaterial: {fileID: -876546973899608171, guid: 800e2322622deb04787c800137aaf77e, type: 3}
   vignetteCounter: 0
-  vignetteCounterMax: 0
+  vignetteCounterMax: 1
   vignetteSpeed:
     serializedVersion: 2
     m_Curve:
@@ -1693,6 +1697,7 @@ GameObject:
   - component: {fileID: 1190234186}
   - component: {fileID: 1190234185}
   - component: {fileID: 1190234184}
+  - component: {fileID: 1190234187}
   m_Layer: 0
   m_Name: SceneContext
   m_TagString: Untagged
@@ -1727,6 +1732,7 @@ MonoBehaviour:
   _scriptableObjectInstallers: []
   _monoInstallers:
   - {fileID: 1190234184}
+  - {fileID: 1190234187}
   _installerPrefabs: []
   _autoRun: 1
   OnPreInstall:
@@ -1759,6 +1765,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1190234187
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1190234183}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4eca5a6ebb4ebf444babadbde6f7d160, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1335550485
 GameObject:
   m_ObjectHideFlags: 0
@@ -2522,7 +2540,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 899a2545c47e3be49a652e4e0408ec63, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  progressionManager: {fileID: 1672397547}
 --- !u!114 &1816452625
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3111,11 +3128,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1315597555874720257, guid: e6e16a0cbc43532428914150dde696b6, type: 3}
       propertyPath: m_NormalizedViewPortRect.x
-      value: 0
+      value: 0.17864585
       objectReference: {fileID: 0}
     - target: {fileID: 1315597555874720257, guid: e6e16a0cbc43532428914150dde696b6, type: 3}
       propertyPath: m_NormalizedViewPortRect.width
-      value: 1
+      value: 0.6428572
       objectReference: {fileID: 0}
     - target: {fileID: 1315597555874720258, guid: e6e16a0cbc43532428914150dde696b6, type: 3}
       propertyPath: m_Name

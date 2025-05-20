@@ -18,6 +18,8 @@ public class ProgressionManager : MonoBehaviour
 {
     [Inject] ScoreManager scoreManager;
     [Inject] AudioManager audioManager;
+    [Inject] PrefabSpawner prefabSpawner;
+    [Inject] Vignette vignette;
 
     [SerializeField] List<GameObject> rooms;
     [SerializeField] LevelTimer levelTimer;
@@ -62,12 +64,19 @@ public class ProgressionManager : MonoBehaviour
     {
         if(currentIndex < rooms.Count)
         {
-            podiums.Clear();
-            Destroy(currentLevel);
-            currentLevel = Instantiate(rooms[currentIndex]);
-            levelText.text = (currentIndex + 1).ToString();
-            activatedPodiums = 0;
-            levelTimer.ResetTimer();
+            vignette.CloseAndOpen(() =>
+            {
+                podiums.Clear();
+                Destroy(currentLevel);
+                prefabSpawner.SpawnPrefab(rooms[currentIndex], out currentLevel);
+                currentLevel.GetComponentInChildren<TilemapManager>().ProcessRuleTileGameObjects();
+                levelText.text = (currentIndex + 1).ToString();
+                activatedPodiums = 0;
+                levelTimer.ResetTimer();
+            }, () =>
+            {
+                Time.timeScale = 1;
+            });
         }
         else
         {
