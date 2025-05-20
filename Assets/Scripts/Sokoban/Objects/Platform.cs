@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Zenject;
 
 /*
  * The Platform script is activated by Gemstones when a Gemstone of corresponding color is moved to its Podium
@@ -9,6 +10,8 @@ using UnityEngine;
  */
 public class Platform : MonoBehaviour
 {
+    [Inject] ProgressionManager progressionManager;
+
     [HideInInspector] public string enumTypeName;
     [HideInInspector] public int enumValueIndex;
 
@@ -20,7 +23,7 @@ public class Platform : MonoBehaviour
     {
         boxCollider = GetComponent<BoxCollider2D>();
         spriteRenderer = GetComponentInChildren<SpriteRenderer>();
-        ProgressionManager.Instance.AddPlatform(this);
+        progressionManager.AddPlatform(this);
     }
     public void Activate()
     {

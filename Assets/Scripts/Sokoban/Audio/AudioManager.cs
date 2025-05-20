@@ -15,18 +15,6 @@ public class AudioManager : MonoBehaviour
         public string ID;
         public AudioClip clip;
     }
-    static AudioManager instance;
-    public static AudioManager Instance
-    {
-        get
-        {
-            return instance;
-        }
-        set
-        {
-            instance = value;
-        }
-    }
     [SerializeField] List<Entry> sounds;
 
     AudioSource source;
@@ -34,14 +22,6 @@ public class AudioManager : MonoBehaviour
     private void Awake()
     {
         source = GetComponent<AudioSource>();
-        if(instance != null)
-        {
-            Destroy(gameObject);
-        }
-        else
-        {
-            instance = this;
-        }
     }
 
     public void PlaySound(string ID)

@@ -4,6 +4,7 @@ using UnityEngine;
 using System.Linq;
 using TMPro;
 using UnityEngine.SceneManagement;
+using Zenject;
 
 /*This code handles callbacks from the puzzle objects to activate effects, as well as determine when the win point activates.
 *It also takes care of the loading of the next level. So it technically breaks Single-Responsibility
@@ -15,6 +16,9 @@ using UnityEngine.SceneManagement;
 */
 public class ProgressionManager : MonoBehaviour
 {
+    [Inject] ScoreManager scoreManager;
+    [Inject] AudioManager audioManager;
+
     [SerializeField] List<GameObject> rooms;
     [SerializeField] LevelTimer levelTimer;
     [SerializeField] int currentIndex;
@@ -34,46 +38,24 @@ public class ProgressionManager : MonoBehaviour
     List<GemstonePodium> podiums = new List<GemstonePodium>();
     List<Platform> platforms = new List<Platform>();
     int activatedPodiums;
-
-    public static ProgressionManager instance;
-    public static ProgressionManager Instance
-    {
-        get
-        {
-            return instance;
-        }
-        set
-        {
-            instance = value;
-        }
-    }
-    private void Awake()
-    {
-        if (instance != null)
-        {
-            Destroy(gameObject);
-        }
-        else
-        {
-            instance = this;
-        }
-    }
     void Start()
     {
         LoadLevel();
     }
     public void Update()
     {
+#if UNITY_EDITOR
         if(Input.GetKeyDown(KeyCode.F1)) //Debug button
         {
             LoadLevel();
         }
+#endif
     }
     public void ProgressToNextLevel()
     {
         currentIndex++;
         levelTimer.SaveTimerScore();
-        ScoreManager.Instance.SaveScore();
+        scoreManager.SaveScore();
         LoadLevel();
     }
     public void LoadLevel()
@@ -113,11 +95,11 @@ public class ProgressionManager : MonoBehaviour
         if(activatedPodiums == podiums.Count)
         {
             winPoint.Activate();
-            AudioManager.Instance.PlaySound(winPointActivate);
+            audioManager.PlaySound(winPointActivate);
         }
         else
         {
-            AudioManager.Instance.PlaySound(gemstonePutSound);
+            audioManager.PlaySound(gemstonePutSound);
         }
     }
     public void DeactivatePodium()
@@ -127,14 +109,14 @@ public class ProgressionManager : MonoBehaviour
     public void WinGame()
     {
         Time.timeScale = 0;
-        AudioManager.Instance.PlaySound(winGameSound);
+        audioManager.PlaySound(winGameSound);
         StartCoroutine(OnWinGame());
     }
     public IEnumerator OnWinGame()
     {
         //This function makes the game over screen appear. I would have prefered to do this through an animation,
         //but since I'm pressed for time I will make it using an IEnumerator instead.
-        winGameCanvasScoreText.text = "Score: " + ScoreManager.Instance.GetScore().ToString();
+        winGameCanvasScoreText.text = "Score: " + scoreManager.GetScore().ToString();
         while (winGameCanvas.alpha < 1)
         {
             winGameCanvas.alpha += Time.unscaledDeltaTime;

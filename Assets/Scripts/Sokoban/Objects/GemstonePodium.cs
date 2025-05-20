@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Zenject;
 
 /*
  * The Gemstone Podium is a script that interacts with the Gemstone to cause effects within the puzzle
@@ -10,22 +11,25 @@ using UnityEngine;
  */
 public class GemstonePodium : SokobanTargetField
 {
+    [Inject] ScoreManager scoreManager;
+    [Inject] ProgressionManager progressionManager;
+
     [SerializeField] ColorCode color;
     [SerializeField] int score;
 
     bool activated;
     public void Start()
     {
-        ProgressionManager.Instance.AddPodiums(this);
+        progressionManager.AddPodiums(this);
         activated = false;
     }
     public override void Activate(IActivatable activatable)
     {
         base.Activate(activatable);
         activated = true;
-        ProgressionManager.Instance.ActivatePodium(color);
+        progressionManager.ActivatePodium(color);
         currentActivatable.transform.position = transform.position;
         currentActivatable = null;
-        ScoreManager.Instance.AddScore(score);
+        scoreManager.AddScore(score);
     }
 }

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using Zenject;
 
 /*
  * The Level Timer script handles the level timer. When the timer runs out, you get a game over
@@ -10,6 +11,8 @@ using TMPro;
  */
 public class LevelTimer : MonoBehaviour
 {
+    [Inject] ScoreManager scoreManager;
+
     [SerializeField] TextMeshProUGUI timer;
     [SerializeField] GameOverManager gameOverManager;
     readonly int timerStartValue = 300;
@@ -32,7 +35,7 @@ public class LevelTimer : MonoBehaviour
     }
     public void SaveTimerScore()
     {
-        ScoreManager.Instance.AddScore((int)currentTimerValue);
+        scoreManager.AddScore((int)currentTimerValue);
     }
     public void ResetTimer()
     {

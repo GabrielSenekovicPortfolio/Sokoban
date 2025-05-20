@@ -2,12 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Zenject;
 
 /*
  * The Game Over Manager takes care of the game over screen as well as moving you back to the start menu
  */
 public class GameOverManager : MonoBehaviour
 {
+    [Inject] AudioManager audioManager;
     [SerializeField] string gameOverSound;
 
     CanvasGroup gameOverCanvas;
@@ -19,7 +21,7 @@ public class GameOverManager : MonoBehaviour
     public void GameOver()
     {
         Time.timeScale = 0;
-        AudioManager.Instance.PlaySound(gameOverSound);
+        audioManager.PlaySound(gameOverSound);
         StartCoroutine(OnGameOver());
     }
     public IEnumerator OnGameOver() 

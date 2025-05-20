@@ -11,33 +11,8 @@ public class ScoreManager : MonoBehaviour
 {
     [SerializeField] TextMeshProUGUI scoreText;
 
-    int score;
+    int score = 0;
     int currentScore;
-
-    static ScoreManager instance;
-    public static ScoreManager Instance
-    {
-        get
-        {
-            return instance;
-        }
-        set
-        {
-            instance = value;
-        }
-    }
-    private void Awake()
-    {
-        if (instance != null)
-        {
-            Destroy(gameObject);
-        }
-        else
-        {
-            instance = this;
-            score = 0;
-        }
-    }
     public void AddScore(int value)
     {
         currentScore += value;

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Zenject;
 
 /*
  * The level resetter takes care of reloading the level and resetting the score.
@@ -8,10 +9,11 @@ using UnityEngine;
  */
 public class LevelResetter : MonoBehaviour
 {
-    [SerializeField] ProgressionManager progressionManager;
+    [Inject] ScoreManager scoreManager;
+    [Inject] ProgressionManager progressionManager;
     public void Restart()
     {
-        ScoreManager.Instance.ResetCurrentScore();
+        scoreManager.ResetCurrentScore();
         progressionManager.LoadLevel();
     }
 }

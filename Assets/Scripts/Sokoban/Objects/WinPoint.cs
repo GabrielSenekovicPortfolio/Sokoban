@@ -1,12 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Zenject;
 
 /*
  * The Win Point script activates once the puzzle is finished. It takes you to the next level, if there is one
  */
 public class WinPoint : MonoBehaviour
 {
+    [Inject] ProgressionManager progressionManager;
+
     [SerializeField] Sprite activatedSprite;
 
     bool activated;
@@ -19,7 +22,7 @@ public class WinPoint : MonoBehaviour
     }
     private void Start()
     {
-        ProgressionManager.Instance.SetWinTile(this);
+        progressionManager.SetWinTile(this);
     }
     public void Activate()
     {
@@ -30,7 +33,7 @@ public class WinPoint : MonoBehaviour
     {
         if(activated)
         {
-            ProgressionManager.Instance.ProgressToNextLevel();
+            progressionManager.ProgressToNextLevel();
         }
     }
 }
