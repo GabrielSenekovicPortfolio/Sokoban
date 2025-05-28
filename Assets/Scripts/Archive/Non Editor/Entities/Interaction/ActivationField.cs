@@ -18,7 +18,7 @@ public class ActivationField : MonoBehaviour, IActivator
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        for(int i = 0; i < IActivatableTypes.Count; i++)
+          for(int i = 0; i < IActivatableTypes.Count; i++)
         {
             if (collision.gameObject.TryGetComponent(IActivatableTypes[i], out Component comp))
             {

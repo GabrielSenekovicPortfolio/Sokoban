@@ -1,5 +1,7 @@
+using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 /*
@@ -10,11 +12,15 @@ public class PlayerMovement : MonoBehaviour
 {
     [SerializeField] float movementSpeed;
 
+    public bool canMove;
+
     Rigidbody2D body;
     PlayerPush push;
+    bool solving = false;
 
     private void Awake()
     {
+        canMove = true;
         body = GetComponent<Rigidbody2D>();
         push = GetComponent<PlayerPush>();
     }
@@ -24,6 +30,21 @@ public class PlayerMovement : MonoBehaviour
         GetDirectionFromInput(out Vector2 movementDirection);
         ModifyDirection(ref movementDirection);
         Move(movementDirection);
+#if UNITY_EDITOR
+        if(!solving && Input.GetKeyDown(KeyCode.F9))
+        {
+            solving = true;
+            FindObjectOfType<TilemapManager>().HasTilemap("Objects", out var tilemap);
+            FindObjectOfType<TilemapManager>().HasTilemap("Collision", out var collisionTilemap);
+            var blocks = FindObjectsOfType<SokobanPushable>().ToList();
+            var fields = FindObjectsOfType<GemstonePodium>();
+            var goals = fields.Select(p => p.transform.position.ToV3Int());
+            SokobanSolver solver = new SokobanSolver(tilemap, collisionTilemap, goals, fields);
+            var actionList = solver.Solve(transform, transform.position.ToV3Int(), blocks);
+            Debug.Log("Success! steps: " + actionList.Count);
+            ActionPlayer.PlayOut(actionList);
+        }
+#endif
     }
     public void GetDirectionFromInput(out Vector2 movementDirection)
     {
@@ -63,6 +84,7 @@ public class PlayerMovement : MonoBehaviour
     }
     public void Move(Vector2 movementDirection)
     {
+        if (!canMove) return;
         body.velocity = movementDirection.normalized * movementSpeed;
     }
 }

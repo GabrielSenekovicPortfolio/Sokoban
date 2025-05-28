@@ -13,6 +13,7 @@ public class WinPoint : MonoBehaviour
     [SerializeField] Sprite activatedSprite;
 
     bool activated;
+    bool steppedOn;
     SpriteRenderer spriteRenderer;
 
     private void Awake()
@@ -31,8 +32,9 @@ public class WinPoint : MonoBehaviour
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(activated)
+        if(activated && !steppedOn)
         {
+            steppedOn = true;
             progressionManager.ProgressToNextLevel();
         }
     }

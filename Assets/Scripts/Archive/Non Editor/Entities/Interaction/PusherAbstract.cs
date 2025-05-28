@@ -1,12 +1,19 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 public class PusherAbstract : MonoBehaviour, IPusher
 {
     protected PushableAbstract pushedObject;
     protected PushableAbstract adjacentPushableObject;
-    protected Transform originalParent;
+    protected Sequence pushingSequence;
+
+    PlayerMovement movement;
+    public void Awake()
+    {
+        movement = GetComponent<PlayerMovement>();
+    }
     public bool IsPushing() => pushedObject != null;
     public bool GetPushDirection(out Vector2 direction)
     {
@@ -23,27 +30,31 @@ public class PusherAbstract : MonoBehaviour, IPusher
     }
     public virtual void StartPushing()
     {
-        pushedObject = adjacentPushableObject;
-        originalParent = pushedObject.transform.parent;
-        pushedObject.transform.parent = transform;
+        if (adjacentPushableObject == null) return;
 
-        Vector2 position = transform.position;
-        transform.position = new Vector3(Mathf.RoundToInt(position.x), Mathf.RoundToInt(position.y), 0);
-        position = pushedObject.transform.position;
-        pushedObject.transform.position = new Vector3(Mathf.RoundToInt(position.x), Mathf.RoundToInt(position.y), 0);
+        movement.canMove = false;
+
+        pushedObject = adjacentPushableObject;
+
+        var dir = (pushedObject.transform.position - transform.position).Round().normalized;
 
         pushedObject.GetComponent<PushableAbstract>().StartPushing(this);
+
+        pushingSequence = DOTween.Sequence();
+        pushingSequence.Append(transform.DOMove(transform.position + dir, 0.2f));
+        pushingSequence.Join(pushedObject.transform.DOMove(pushedObject.transform.position + dir, 0.2f));
+        pushingSequence.OnComplete(() =>
+        {
+            pushingSequence = null;
+        });
+        pushingSequence.Play();
     }
     public virtual void StopPushing()
     {
         if (pushedObject != null)
         {
-            Vector2 position = pushedObject.transform.position;
-            pushedObject.transform.position = new Vector3(Mathf.RoundToInt(position.x), Mathf.RoundToInt(position.y), 0);
-
-            pushedObject.transform.parent = originalParent;
             pushedObject = null;
-            originalParent = null;
+            movement.canMove = true;
         }
     }
     private void OnCollisionEnter2D(Collision2D collision)

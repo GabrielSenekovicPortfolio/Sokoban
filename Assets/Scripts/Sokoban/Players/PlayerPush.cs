@@ -1,3 +1,4 @@
+using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,17 +10,22 @@ using UnityEngine;
  */
 public class PlayerPush : PusherAbstract
 {
+    Timer pushTimer;
+
+    private new void Awake()
+    {
+        base.Awake();
+        pushTimer = new Timer(0.2f, StartPushing);
+    }
     private void Update()
     {
-        if(Input.GetKeyDown(KeyCode.Space))
+        if(Input.GetKey(KeyCode.Space) && pushingSequence == null)
         {
-            if(adjacentPushableObject != null)
-            {
-                StartPushing();
-            }
+            pushTimer.Tick();
         }
         if(Input.GetKeyUp(KeyCode.Space))
         {
+            pushTimer.Reset();
             StopPushing();
         }
     }

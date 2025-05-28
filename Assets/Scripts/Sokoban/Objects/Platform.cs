@@ -8,7 +8,7 @@ using Zenject;
  * It cannot be walked on normally, but it can once activated
  * If the scope had been bigger, it could warrant an "IPlatform", for perhaps, platforms that deactivate and reactivate based on a timer
  */
-public class Platform : MonoBehaviour
+public class Platform : MonoBehaviour, IActivatable
 {
     [Inject] ProgressionManager progressionManager;
 
@@ -32,4 +32,10 @@ public class Platform : MonoBehaviour
     }
 
     public int GetEnumValue() => enumValueIndex;
+
+    public void Deactive()
+    {
+        spriteRenderer.sprite = null;
+        boxCollider.enabled = true;
+    }
 }

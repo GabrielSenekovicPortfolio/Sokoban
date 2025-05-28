@@ -5,6 +5,8 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using Zenject;
+using System;
+
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -17,49 +19,13 @@ public class TilemapManager : MonoBehaviour
 
     public SerializableDictionary<string, Tilemap> tileMaps = new SerializableDictionary<string, Tilemap>();
 
-#if UNITY_EDITOR
-    private void OnEnable()
-    {
-        try
-        {
-            Instance = this;
-
-            UpdateDictionary();
-
-            EditorApplication.hierarchyChanged += OnHierarchyChanged;
-
-            if (!Application.isPlaying)
-            {
-                EditorApplication.playModeStateChanged += HandlePlayModeStateChanged;
-            }
-        }
-        catch
-        {
-            Debug.Log("Something went wrong with enabling tilemap manager");
-        }
-    }
-
-    private void OnDisable()
-    {
-        EditorApplication.hierarchyChanged -= OnHierarchyChanged;
-    }
-
-    private void OnHierarchyChanged()
-    {
-        UpdateDictionary();
-    }
-    private void HandlePlayModeStateChanged(PlayModeStateChange state)
-    {
-        if (state == PlayModeStateChange.ExitingPlayMode)
-        {
-            Instance = null;
-        }
-    }
-#endif
-
     private void Awake()
     {
         Instance = this;
+    }
+    private void Start()
+    {
+        UpdateDictionary();
     }
 
     void UpdateDictionary()
@@ -98,11 +64,6 @@ public class TilemapManager : MonoBehaviour
                 }
             }
         }
-    }
-
-    private void Start()
-    {
-        UpdateDictionary();
     }
     public bool HasTilemap(string tilemapName, out Tilemap tilemap)
     {
@@ -149,4 +110,48 @@ public class TilemapManager : MonoBehaviour
         }
         return tilemaps.Count > 0;
     }
+    public SimulatedTilemap GetSimulatedTilemap()
+    {
+        throw new NotImplementedException();
+    }
+
+#if UNITY_EDITOR
+    private void OnEnable()
+    {
+        try
+        {
+            Instance = this;
+
+            UpdateDictionary();
+
+            EditorApplication.hierarchyChanged += OnHierarchyChanged;
+
+            if (!Application.isPlaying)
+            {
+                EditorApplication.playModeStateChanged += HandlePlayModeStateChanged;
+            }
+        }
+        catch
+        {
+            Debug.Log("Something went wrong with enabling tilemap manager");
+        }
+    }
+
+    private void OnDisable()
+    {
+        EditorApplication.hierarchyChanged -= OnHierarchyChanged;
+    }
+
+    private void OnHierarchyChanged()
+    {
+        UpdateDictionary();
+    }
+    private void HandlePlayModeStateChanged(PlayModeStateChange state)
+    {
+        if (state == PlayModeStateChange.ExitingPlayMode)
+        {
+            Instance = null;
+        }
+    }
+#endif
 }
